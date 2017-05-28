@@ -16,10 +16,36 @@ public class main {
      */
     public static void main(String[] args) 
     {
-        run_tests();
-        run_tests_Q1();
-        run_tests_Q2();
+        if (args.length == 0) /* run tests! */
+        {
+            run_tests();
+            run_tests_Q1();
+            run_tests_Q2();
+            return;
+        }
+        /* Else run the code of Q1 and Q2 */
         
+        /* Input tree */
+        String[] tree_user = args[0].split(",");
+        KemBinaryTree<String> tree = new KemBinaryTree();
+        ArrayList<String> arr1 = new ArrayList();
+        arr1.addAll(Arrays.asList(tree_user));
+        tree.addAll(arr1);
+        
+        /* Print the input tree */
+        System.out.println("The input tree is: ");
+        tree.printTree();  
+        
+        /* Q1 */
+        System.out.println("\n** Q1: Run Alg. **");
+        KemTreeNode<String> node=getNode(args[1], tree);
+        tree.printAncestors(node);
+        
+        /* Q2 */
+        System.out.println("\n** Q2: Run Alg. **");
+        KemTreeNode<String> node1=getNode(args[2], tree);
+        KemTreeNode<String> node2=getNode(args[3], tree);
+        System.out.println("Common is: " + tree.getLowestCommonAncestors(node1, node2).getData());
     }
         
     private static void run_tests()
@@ -88,5 +114,41 @@ public class main {
         System.out.println("Common is: " + t1.getLowestCommonAncestors(t1.getRoot().getRight(), t1.getRoot().getRight().getLeft().getRight().getLeft()));
         System.out.println("Common is: " + t1.getLowestCommonAncestors(t1.getRoot().getRight(), t1.getRoot().getLeft()).getData());
         System.out.println("Common is: " + t1.getLowestCommonAncestors(t1.getRoot().getLeft().getRight().getLeft(), t1.getRoot().getLeft().getLeft().getLeft()).getData());
-    }    
+    }
+
+    static private KemTreeNode<String> getNode(String path, KemBinaryTree<String> tree)
+    {
+        KemTreeNode<String> node=null;
+        if (path.length() > 0)
+        {
+            if (path.charAt(0) != 'T')
+            {
+                System.err.println("Any path shall start in root!. Return null node.");
+                return null;
+            }   
+                
+            for (int i=0;i<path.length();i++)
+            {
+                if (path.charAt(i) == 'L')
+                {
+                    node = node.getLeft();
+                }
+                else if (path.charAt(i) == 'R')
+                {
+                    node = node.getRight();
+                } 
+                else if (path.charAt(i) == 'P')
+                {
+                    node = node.getParent();
+                }
+                else if (path.charAt(i) == 'T')
+                {
+                    node = tree.getRoot();
+                } 
+                /* ELSE: ignore */
+            }
+        }
+        
+        return node;
+    }
 }
