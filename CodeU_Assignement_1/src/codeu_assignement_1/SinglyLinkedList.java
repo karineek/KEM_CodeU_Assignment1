@@ -12,29 +12,29 @@ import java.util.Collection;
  */
 public class SinglyLinkedList <E> {
     /*  Inner pojo class Node in the list  */
-    public class Node
+    public class Node <T>
     {
-        private E data=null;
-        private Node next=null;
-        public Node(E d,Node n)
+        private T data=null;
+        private Node<T> next=null;
+        public Node(T d,Node n)
         {
             data = d;
             next = n;
         }    
         /* Setters */
-        public void setNext(Node n) { next = n; }    
-        public void setData(E d) { data = d; } 
+        public void setNext(Node<T> n) { next = n; }    
+        public void setData(T d) { data = d; } 
         
         /* Getter */
-        public Node getNext() { return next; }    
-        public E getData() { return data; }
+        public Node<T> getNext() { return next; }    
+        public T getData() { return data; }
     }
     
     
     /* Data members of LinkedList */
     protected int size=0;
-    protected Node m_first=null;
-    protected Node m_last=null;
+    protected Node<E> m_first=null;
+    protected Node<E> m_last=null;
     
     /* */
     public SinglyLinkedList(){} 
@@ -61,7 +61,7 @@ public class SinglyLinkedList <E> {
         if (index < 0 || index > size)
             throw new IndexOutOfBoundsException();
      
-        Node n = new Node(e, null);             
+        Node<E> n = new Node<>(e, null);             
                 
         /* Empty list */
         if(m_first == null) 
@@ -84,23 +84,18 @@ public class SinglyLinkedList <E> {
         /* Add to in the middle */
         else 
         {
-            Node curr = m_first;
-            index -= 1; /* i = i-1; to get the item befoer where we add */
-            for (int i = 0; i < size; i++) 
+            Node<E> curr = m_first;
+            for (int i = 0; i < index; i++) 
             {
-                if (i == index) 
-                {
-                    /* Before: curr -> next_curr */
-                    Node next_curr = curr.getNext() ;
-                    curr.setNext(n);
-                    n.setNext(next_curr);
-                    break;
-                    /* After: curr -> n -> next_curr */
-                }
-
-                /* Go to next */
+                /* Go to next index times */
                 curr = curr.getNext();
             }
+            
+            /* Before: curr -> next_curr */
+            Node<E> next_curr = curr.getNext() ;
+            curr.setNext(n);
+            n.setNext(next_curr);
+            /* After: curr -> n -> next_curr */
         }
         
         size++ ;
@@ -121,7 +116,7 @@ public class SinglyLinkedList <E> {
             true if this list changed as a result of the call
         "
     */
-    public boolean addAll(Collection<? extends E> c)
+    public final boolean addAll(Collection<? extends E> c)
     {
         if (c == null)
             throw new NullPointerException();
@@ -129,11 +124,12 @@ public class SinglyLinkedList <E> {
         if (c.isEmpty()) return false;
         
         /* If there are items - add them one after another */
+        int prev_size = size;
         c.forEach((i) -> {
             this.addLast(i);
         });
         
-        return (size > 0); /* Shall add something */
+        return ((size > 0) && (size > prev_size)); /* Shall add something */
     }
     
     /*  Remove e element in the front/begining of the list  */
@@ -152,15 +148,17 @@ public class SinglyLinkedList <E> {
         if (index == 0) /* Remove first */
         { 
             E ret = m_first.getData();
+            Node<E> temp = m_first;
             m_first = m_first.getNext();
             size--;
+            temp.setNext(null); /* gc */
             return ret;
         }
         else if (index == (size -1)) /* Remove last */
         {
             /* Find prev to the last */
-            Node prev = m_first;
-            Node curr = m_first;
+            Node<E> prev = m_first;
+            Node<E> curr = m_first;
             while (curr.getNext() != null)
             {
                 prev = curr;
@@ -172,34 +170,42 @@ public class SinglyLinkedList <E> {
             m_last.setNext(null);
             size --;
             
+            curr.setNext(null); /* gc */
             return curr.getData();
         } 
         else /* The general case where 0 < index < (size-1)  */
         {
-            Node prev = m_first;
+            Node<E> prev = m_first;
+            E ret_val = null;
             index -= 1 ; /* i = i-1; to get the item befoer where we remove */
-            for (int i = 0; i < size - 2; i++) 
+            for (int i = 0; (i < size - 2); i++) 
             {
                 if (i == index) 
                 {
                     /* prev -> curr -> next */
-                    Node curr = prev.getNext();
-                    Node next = curr.getNext();
+                    Node<E> curr = prev.getNext();
+                    Node<E> next = curr.getNext();
                     prev.setNext(next);
                     curr.setNext(null); /* gc */
                     size --;
                     /* After: prev -> next */
                     
-                    return curr.getData();
+                    ret_val = curr.getData();
+                    break;
                 }
-                prev = prev.getNext();
+                else 
+                {
+                    prev = prev.getNext();
+                }
             }
             
-            return null; /* Item wasn't found - Error! */
+            return ret_val; /* Item wasn't found - Error! */
         }
     } /* End of: public E removeAt(int index) */
     
-    /* Returns the element in index location */ 
+    /* 
+    Returns the element in index location 
+    */ 
     public E get(int index)
     {
         /* Checks the the index is in the bounds of the list */ 
@@ -215,7 +221,7 @@ public class SinglyLinkedList <E> {
         /* The general case */
         else  
         {
-            Node curr = m_first;
+            Node<E> curr = m_first;
             for (int i = 0; i < size - 1; i++) 
             {
                 if (i == index) 

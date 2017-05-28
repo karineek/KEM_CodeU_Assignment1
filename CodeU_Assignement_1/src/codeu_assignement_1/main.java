@@ -206,8 +206,7 @@ public class main {
 
         /* General testing */
         System.out.println(">> Starts General testing for SinglyLinkedList: ");
-        SinglyLinkedList<Integer> my_list;
-        my_list = new SinglyLinkedList<>();
+        SinglyLinkedList<Integer> my_list = new SinglyLinkedList<>();
         my_list.addFirst(1);
         my_list.addFirst(2);
         my_list.addFirst(3);
