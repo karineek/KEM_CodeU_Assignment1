@@ -12,7 +12,15 @@ public class main {
      * @param args the command line arguments
      * 
      * Gives a basic interface to do some partial testing to the code
+     *  and run the algorithms via command line
      * 
+     * Input:
+     * Tree data, path for Q1, path for Q2 first node, path for Q2 second node
+     * Path is the letters: T,R,,L,P. Need to start with T
+     * T = Get Root
+     * P = Get parent
+     * L = Get Left
+     * R = Get Right
      */
     public static void main(String[] args) 
     {
@@ -24,6 +32,12 @@ public class main {
             return;
         }
         /* Else run the code of Q1 and Q2 */
+        if (args.length!=4)
+        {
+            System.out.println("Error: " + args.length 
+                    + " parameters only. Expect somthing like: 1,2,3,4,5,6,7, TLL, T, TLL");      
+            return;
+        }
         
         /* Input tree */
         String[] tree_user = args[0].split(",");
