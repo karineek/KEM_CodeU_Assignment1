@@ -8,8 +8,8 @@ E.g.,
 Listen Silent 2 34,9,8,10,1,2,-1,99
 
 And shall output:
-Q1: Listen is a permutation of Silent
-Q2: the 2-th to the last element is 2
+** Q1: Listen is a permutation of Silent **
+** Q2: the 2-th to the last element is 2 **
 
 # How to Run Tests: 
 Add no args
@@ -28,24 +28,24 @@ Path is the letters: T,R,,L,P. Need to start with T
 E.g.,
 "1,2,3,4,5,6,7,8,9,0,1,2,3,4,5", "TLLL", "T", "TLL"
 
-And shall output:
+# For this example shall output:
 The input tree is: 
 Tree: 
-|1
- |2
-  |4
-   |8
-   |9
-  |5
-   |0
-   |1
- |3
-  |6
-   |2
-   |3
-  |7
-   |4
-   |5
+- |1
+-  |2
+-   |4
+-    |8
+-    |9
+-   |5
+-    |0
+-    |1
+-  |3
+-   |6
+-    |2
+-    |3
+-   |7
+-    |4
+-    |5
 
 
 ** Q1: Run Alg. **
