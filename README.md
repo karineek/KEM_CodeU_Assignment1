@@ -28,26 +28,7 @@ Path is the letters: T,R,,L,P. Need to start with T
 E.g.,
 "1,2,3,4,5,6,7,8,9,0,1,2,3,4,5", "TLLL", "T", "TLL"
 
-# For this example shall output:
-The input tree is: 
-Tree: 
-** |1
-**  |2
-**   |4
-**    |8
-**    |9
-**   |5
-**    |0
-**    |1
-**  |3
-**   |6
-**    |2
-**    |3
-**   |7
-**    |4
-**    |5
-
-
+And shall output:
 ** Q1: Run Alg. **
 4,2,1. Done printAncestors(..).
 
