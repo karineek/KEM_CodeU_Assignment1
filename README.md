@@ -1,5 +1,5 @@
-# KEM_CodeU_Assignment1
-Karine EM CodeU 2017: Assignment1
+# KEM CodeU Assignments 1-2
+Karine EM CodeU 2017: Assignments 1 and 2.
 
 # How to Run Assigenemnt 1?
 First two args are for Q1. and the last two args are for Q2.
