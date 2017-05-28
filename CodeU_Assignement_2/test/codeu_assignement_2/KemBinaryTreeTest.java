@@ -52,29 +52,87 @@ public class KemBinaryTreeTest {
      * Test of printAncestors method, of class KemBinaryTree.
      */
     @Test
-    public void testPrintAncestors() {
+    public void testPrintAncestorsNull() {
         System.out.println("printAncestors");
         KemTreeNode child = null;
         KemBinaryTree instance = new KemBinaryTree();
         instance.printAncestors(child);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-
+    @Test
+    public void testPrintAncestors() {
+        System.out.println("printAncestors");
+        
+        /* Create tree for testing */
+        KemBinaryTree<Integer> t1 = new KemBinaryTree();
+        Integer[] temp = {1,2,3,4,5,6,7,8,9,0,1,2,3,4,5};
+        ArrayList<Integer> arr1 = new ArrayList();
+        arr1.addAll(Arrays.asList(temp));
+        t1.addAll(arr1);
+        
+        t1.printAncestors(t1.getRoot().getLeft().getLeft().getLeft());
+        t1.printAncestors(t1.getRoot().getLeft().getLeft().getRight());
+        t1.printAncestors(t1.getRoot().getLeft().getRight().getRight());
+        t1.printAncestors(t1.getRoot().getRight().getRight().getRight());
+        t1.printAncestors(t1.getRoot());
+        t1.printAncestors(t1.getRoot().getRight().getRight().getRight().getRight());
+    }
+    
     /**
      * Test of getLowestCommonAncestors method, of class KemBinaryTree.
      */
     @Test
-    public void testGetLowestCommonAncestors() {
+    public void testGetLowestCommonAncestorsWithNulls() {
         System.out.println("getLowestCommonAncestors");
         KemTreeNode child1 = null;
         KemTreeNode child2 = null;
         KemBinaryTree instance = new KemBinaryTree();
         KemTreeNode expResult = null;
         KemTreeNode result = instance.getLowestCommonAncestors(child1, child2);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals("Both null, there is none, returns null", expResult, result);
+        
+        child2 = new KemTreeNode(5);
+        result = instance.getLowestCommonAncestors(child1, child2);
+        assertEquals("One of the node is null, there is none common, returns null", expResult, result);
+    }
+    @Test
+    public void testGetLowestCommonAncestors() {
+        System.out.println("getLowestCommonAncestors");
+
+        /* Create tree for testing */
+        KemBinaryTree<Integer> t1 = new KemBinaryTree<>();
+        Integer[] temp = {1,2,3,4,5,6,7,8,9,0,1,2,3,4,5};
+        ArrayList<Integer> arr1 = new ArrayList();
+        arr1.addAll(Arrays.asList(temp));
+        t1.addAll(arr1);
+
+        /* Start testing */
+        Integer expResult = 1;
+        Integer result = t1.getLowestCommonAncestors(t1.getRoot(), t1.getRoot()).getData();
+        assertEquals("Common is: 1", expResult, result);
+        
+        expResult = 1;
+        result = t1.getLowestCommonAncestors(t1.getRoot(), t1.getRoot().getLeft()).getData();
+        assertEquals("Common is: 1", expResult, result);
+        
+        expResult = 1;
+        result = t1.getLowestCommonAncestors(t1.getRoot().getRight(), t1.getRoot()).getData();
+        assertEquals("Common is: 1", expResult, result);
+
+        expResult = 3;
+        result = t1.getLowestCommonAncestors(t1.getRoot().getRight(), t1.getRoot().getRight()).getData();
+        assertEquals("Common is: 3", expResult, result);
+        
+        KemTreeNode<Integer> expResult_2 = null;
+        KemTreeNode<Integer> result_2 = t1.getLowestCommonAncestors(t1.getRoot().getRight(), t1.getRoot().getRight().getLeft().getRight().getLeft());
+        assertEquals("Common is: null", expResult_2, result_2);        
+        
+        expResult = 1;
+        result = t1.getLowestCommonAncestors(t1.getRoot().getRight(), t1.getRoot().getLeft()).getData();
+        assertEquals("Common is: 1", expResult, result);
+
+        expResult = 2;
+        result = t1.getLowestCommonAncestors(t1.getRoot().getLeft().getRight().getLeft(), t1.getRoot().getLeft().getLeft().getLeft()).getData();
+        assertEquals("Common is: 2", expResult, result);
     }
 
     /**

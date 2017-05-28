@@ -12,9 +12,9 @@ import java.util.Objects;
 public class KemTreeNode <E> 
 {
     private E data=null;
-    private KemTreeNode parent=null;
-    private KemTreeNode left=null;
-    private KemTreeNode right=null;
+    private KemTreeNode<E> parent=null;
+    private KemTreeNode<E> left=null;
+    private KemTreeNode<E> right=null;
     public KemTreeNode(E d)
     {
         data = d;
@@ -22,7 +22,7 @@ public class KemTreeNode <E>
         left = null;
         right = null;
     }
-    public KemTreeNode(E d,KemTreeNode p, KemTreeNode l, KemTreeNode r)
+    public KemTreeNode(E d,KemTreeNode<E> p, KemTreeNode<E> l, KemTreeNode<E> r)
     {
         data = d;
         parent = p;
@@ -30,15 +30,15 @@ public class KemTreeNode <E>
         right = r;
     }    
     /* Setters */
-    public void setParent(KemTreeNode p) { parent = p; } 
-    public void setLeft(KemTreeNode l)   { left = l; } 
-    public void setRight(KemTreeNode r)  { right = r; } 
+    public void setParent(KemTreeNode<E> p) { parent = p; } 
+    public void setLeft(KemTreeNode<E> l)   { left = l; } 
+    public void setRight(KemTreeNode<E> r)  { right = r; } 
     public void setData(E d) { data = d; } 
 
     /* Getter */
-    public KemTreeNode getParent() { return parent; }
-    public KemTreeNode getLeft() { return left; }
-    public KemTreeNode getRight() { return right; }
+    public KemTreeNode<E> getParent() { return parent; }
+    public KemTreeNode<E> getLeft() { return left; }
+    public KemTreeNode<E> getRight() { return right; }
     public E getData() { return data; }
 
     @Override
@@ -55,7 +55,7 @@ public class KemTreeNode <E>
             return false;
         }
         
-        KemTreeNode n = (KemTreeNode) other;
+        KemTreeNode<E> n = (KemTreeNode<E>) other;
         if (this == n) 
         {
             return true;
