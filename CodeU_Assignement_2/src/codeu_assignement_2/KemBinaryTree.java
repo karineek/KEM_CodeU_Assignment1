@@ -15,49 +15,8 @@ import java.util.LinkedList;
  * 
  */
 public class KemBinaryTree <E> {
-    /*  Inner pojo class Node in the list  */
-    public class TreeNode <E>
-    {
-        private E data=null;
-        private TreeNode parent=null;
-        private TreeNode left=null;
-        private TreeNode right=null;
-        public TreeNode(E d,TreeNode p, TreeNode l, TreeNode r)
-        {
-            data = d;
-            parent = p;
-            left = l;
-            right = r;
-        }    
-        /* Setters */
-        public void setParent(TreeNode p) { parent = p; } 
-        public void setLeft(TreeNode l)   { left = l; } 
-        public void setRight(TreeNode r)  { right = r; } 
-        public void setData(E d) { data = d; } 
-        
-        /* Getter */
-        public TreeNode getParent() { return parent; }
-        public TreeNode getLeft() { return left; }
-        public TreeNode getRight() { return right; }
-        public E getData() { return data; }
-        
-        @Override
-        public boolean equals(Object other) {
-            if (!(other instanceof TreeNode)) {
-                return false;
-            }
-
-            TreeNode n = (TreeNode) other;
-
-            /* Custom equality check here. */
-            return (this.data.equals(n.data) &&
-                    this.parent.equals(n.parent) &&
-                    this.left.equals(n.left) && this.left.equals(n.left)); 
-        }
-    }
-    
-    /* Data members of Tree */
-    protected TreeNode m_root=null;
+        /* Data members of Tree */
+    protected KemTreeNode m_root=null;
     
     /* */
     public KemBinaryTree(){} 
@@ -66,10 +25,10 @@ public class KemBinaryTree <E> {
     public boolean isEmpty() { return (m_root == null); }
     
     /* Allow us to decide where to add items */
-    public TreeNode getRoot() { return m_root;}
+    public KemTreeNode getRoot() { return m_root;}
     
     /* Q1: Get all ancestors */
-    public void printAncestors(TreeNode child)
+    public void printAncestors(KemTreeNode child)
     {  
         /* Check if child isn't null */
         if (child == null)
@@ -79,7 +38,7 @@ public class KemBinaryTree <E> {
         }
         
         /* Check if child isn't root */
-        TreeNode curr = child.getParent();
+        KemTreeNode curr = child.getParent();
         if (curr == null)
         {
             System.out.println("** Root **: has no ancestors. Done.");
@@ -98,7 +57,7 @@ public class KemBinaryTree <E> {
     }
 
     /* Q2: Get all ancestors */
-    public TreeNode getLowestCommonAncestors(TreeNode child1, TreeNode child2)
+    public KemTreeNode getLowestCommonAncestors(KemTreeNode child1, KemTreeNode child2)
     {
         /* No common if at least one is null */
         if (child1 == null || child2 == null)
@@ -110,14 +69,14 @@ public class KemBinaryTree <E> {
         
         /* Create a trace from child to root, and then return the last 
            Common node on the prefixes */
-        Stack<TreeNode> st_c1 = getTraceChild2Root(child1);
-        Stack<TreeNode> st_c2 = getTraceChild2Root(child2);
+        Stack<KemTreeNode> st_c1 = getTraceChild2Root(child1);
+        Stack<KemTreeNode> st_c2 = getTraceChild2Root(child2);
         
-        TreeNode common = null;
+        KemTreeNode common = null;
         while(!st_c1.empty() && !st_c2.empty())
         {
-            TreeNode c1 = st_c1.pop();
-            TreeNode c2 = st_c2.pop();
+            KemTreeNode c1 = st_c1.pop();
+            KemTreeNode c2 = st_c2.pop();
             if (c1 != c2) return common;
             
             common = c1; /* when c1=c2 */
@@ -129,13 +88,13 @@ public class KemBinaryTree <E> {
     }
     
     /* Create the trace from child to root, including the root and the child */
-    private Stack<TreeNode> getTraceChild2Root(TreeNode child)
+    private Stack<KemTreeNode> getTraceChild2Root(KemTreeNode child)
     {
         if (m_root == null) return null;
         
         /* Create the trace */
-        Stack<TreeNode> st_c = new Stack();
-        TreeNode curr = child;
+        Stack<KemTreeNode> st_c = new Stack();
+        KemTreeNode curr = child;
         while (curr != null)
         {
             st_c.push(curr);
@@ -146,23 +105,22 @@ public class KemBinaryTree <E> {
     }
        
     /* Check if a node is in the tree */
-    public boolean exist(TreeNode n)
+    public boolean exist(KemTreeNode n)
     {
         /* Go over the tree in pre-order */
         if (m_root!=null)
             return exist(n,m_root);
-        
-        /* If didn't find so far - return false */
-        return false;
+        else
+            return false; /* Nothing is in an empty tree, returns false */
     } 
     
     /* Check if a node is in the tree - Helper method for the recursion */
-    private boolean exist(TreeNode n, TreeNode curr)
+    private boolean exist(KemTreeNode n, KemTreeNode curr)
     {
         /* Go over the tree in pre-order */
         if (curr!=null)
         {
-            if (curr == n ) return true;
+            if (curr.equals(n)) return true;
             
             /* Check if in Left or Right sub-trees */
             if (exist(n,curr.getLeft())) return true;
@@ -190,7 +148,7 @@ public class KemBinaryTree <E> {
     
     /* Check if a node is in the tree - Helper method for the recursion
        Print in Pre-order */
-    private void printTree(TreeNode curr, String indent)
+    private void printTree(KemTreeNode curr, String indent)
     {
         /* Go over the tree in pre-order */
         if (curr!=null)
@@ -208,14 +166,14 @@ public class KemBinaryTree <E> {
      * How? if is2Left add child as left of parent, else as right of parent
      * if is2LeftChild - add the original child of parent as left of child (else as right of child)
     */ 
-    public void addAt(TreeNode parent, E child_data, boolean is2Left, boolean is2LeftChild)
+    public void addAt(KemTreeNode parent, E child_data, boolean is2Left, boolean is2LeftChild)
     {             
         /* Check that the parents CAN be in the tree (not null tree) */
         if (parent != null && m_root == null)
              throw new NullPointerException("No tree found. Root is null.");   
             
         /* Creat a new node - child */
-        TreeNode child = new TreeNode(child_data, null,null,null);   
+        KemTreeNode child = new KemTreeNode(child_data, null,null,null);   
              
         /* Set the child as root (empry tree) */
         if (parent == null && m_root == null)
@@ -244,8 +202,8 @@ public class KemBinaryTree <E> {
             throw new IllegalArgumentException();
         
         /* Add the child */
-        TreeNode tempL=parent.getLeft();
-        TreeNode tempR=parent.getRight();
+        KemTreeNode tempL=parent.getLeft();
+        KemTreeNode tempR=parent.getRight();
        
         child.setParent(parent);
         if (is2Left && tempL==null)
@@ -264,7 +222,7 @@ public class KemBinaryTree <E> {
     } /* End of addAt */
 
     /* When add to left and connect to Left */
-    private void setLL(TreeNode a, TreeNode b, TreeNode c)
+    private void setLL(KemTreeNode a, KemTreeNode b, KemTreeNode c)
     {
         a.setLeft(b);
         b.setLeft(c);
@@ -274,7 +232,7 @@ public class KemBinaryTree <E> {
     }
     
     /* When add to left and connect to Right */
-    private void setLR(TreeNode a, TreeNode b, TreeNode c)
+    private void setLR(KemTreeNode a, KemTreeNode b, KemTreeNode c)
     {
         a.setLeft(b);
         b.setRight(c);
@@ -284,7 +242,7 @@ public class KemBinaryTree <E> {
     }
     
     /* When add to Right and connect to Left */
-    private void setRL(TreeNode a, TreeNode b, TreeNode c)
+    private void setRL(KemTreeNode a, KemTreeNode b, KemTreeNode c)
     {
         a.setRight(b);
         b.setLeft(c);
@@ -294,7 +252,7 @@ public class KemBinaryTree <E> {
     }
     
     /* When add to Right and connect to Right */
-    private void setRR(TreeNode a, TreeNode b, TreeNode c)
+    private void setRR(KemTreeNode a, KemTreeNode b, KemTreeNode c)
     {
         a.setRight(b);
         b.setRight(c);
@@ -306,11 +264,18 @@ public class KemBinaryTree <E> {
     /* Add all in BFS order (i.e., Breadth-First Traversal of a Tree) */
     public void addAll(ArrayList<E> children)
     {
+        // Checks before add
+        if (children == null) 
+        {
+            return; 
+        }
         if (children.isEmpty()) 
+        {
             return;
+        }
         
         /* Start adding the items */
-        Queue<TreeNode> qn;
+        Queue<KemTreeNode> qn;
         qn = new LinkedList<>();
         boolean is2Left = true;        
         Iterator<E> itr = children.iterator();
@@ -322,7 +287,7 @@ public class KemBinaryTree <E> {
         }
         
         /* Add the rest in BFS order */
-        TreeNode curr = m_root; 
+        KemTreeNode curr = m_root; 
         while(itr.hasNext())
         {
             this.addAt(curr, itr.next(), is2Left, true);
