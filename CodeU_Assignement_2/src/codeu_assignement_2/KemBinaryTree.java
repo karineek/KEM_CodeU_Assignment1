@@ -51,7 +51,9 @@ public class KemBinaryTree <E> {
             System.out.print(curr.getData());
             curr = curr.getParent();
             if (curr != null)
+            {
                 System.out.print(",");
+            }
         }
         System.out.println(". Done printAncestors(..).");
     }
@@ -61,12 +63,14 @@ public class KemBinaryTree <E> {
     {
         /* No common if at least one is null */
         if ((child1 == null) || (child2 == null))
+        {
             return null;
-        
+        }
         /* If one of them is the root - return it as the common */
         if ((child1 == m_root) || (child2 == m_root))
+        {
             return m_root;
-        
+        }
         /* Create a trace from child to root, and then return the last 
            Common node onKemTreeNode the prefixes */
         Stack<KemTreeNode<E>> st_c1 = getTraceChild2Root(child1);
@@ -77,7 +81,10 @@ public class KemBinaryTree <E> {
         {
             KemTreeNode<E> c1 = st_c1.pop();
             KemTreeNode<E> c2 = st_c2.pop();
-            if (c1 != c2) return common;
+            if (c1 != c2) 
+            {
+                return common;
+            }
             
             common = c1; /* when c1=c2 */
         }
@@ -109,9 +116,13 @@ public class KemBinaryTree <E> {
     {
         /* Go over the tree in pre-order */
         if (m_root!=null)
+        {
             return exist(n,m_root);
+        }
         else
+        {
             return false; /* Nothing is in an empty tree, returns false */
+        }
     } 
     
     /* Check if a node is in the tree - Helper method for the recursion */
@@ -120,11 +131,20 @@ public class KemBinaryTree <E> {
         /* Go over the tree in pre-order */
         if (curr!=null)
         {
-            if (curr.equals(n)) return true;
+            if (curr.equals(n)) 
+            { 
+                return true;
+            }
             
             /* Check if in Left or Right sub-trees */
-            if (exist(n,curr.getLeft())) return true;
-            if (exist(n,curr.getRight())) return true;        
+            if (exist(n,curr.getLeft())) 
+            {
+                return true;
+            }
+            if (exist(n,curr.getRight())) 
+            {
+                return true;
+            }        
         }
         
         /* If didn't find so far - return false */
@@ -172,8 +192,9 @@ public class KemBinaryTree <E> {
     {             
         /* Check that the parents CAN be in the tree (not null tree) */
         if ((parent != null) && (m_root == null))
+        {
              throw new NullPointerException("No tree found. Root is null.");   
-            
+        }   
         /* Creat a new node - child */
         KemTreeNode<E> child = new KemTreeNode<>(child_data, null,null,null);   
              
@@ -202,11 +223,14 @@ public class KemBinaryTree <E> {
                 
         /* The general case - where the root and parent aren't null! */
         if ((parent == null) || (m_root == null))
+        {
              throw new NullPointerException(); 
-        
+        }
         /* Check if the parent is in the tree */
         if (!this.exist(parent))
+        {
             throw new IllegalArgumentException();
+        }
         
         /* Add the child */
         KemTreeNode<E> tempL=parent.getLeft();
@@ -223,11 +247,26 @@ public class KemBinaryTree <E> {
         }
         else /* General case */
         {
-            if (is2Left && is2LeftChild) setLL(parent,child,tempL);
-            else if (is2Left && (!is2LeftChild)) setLR(parent,child,tempL);
-            else if ((!is2Left) && is2LeftChild) setRL(parent,child,tempR);
-            else if ((!is2Left) && (!is2LeftChild)) setRR(parent,child,tempR);
-            else throw new IllegalArgumentException(); /* Not suppose to get here */
+            if (is2Left && is2LeftChild) 
+            {
+                setLL(parent,child,tempL);
+            }
+            else if (is2Left && (!is2LeftChild)) 
+            {
+                setLR(parent,child,tempL);
+            }
+            else if ((!is2Left) && is2LeftChild) 
+            {
+                setRL(parent,child,tempR);
+            }
+            else if ((!is2Left) && (!is2LeftChild)) 
+            {
+                setRR(parent,child,tempR);
+            }
+            else 
+            {
+                throw new IllegalArgumentException();
+            } /* Not suppose to get here */
         }
        
     } /* End of addAt */
