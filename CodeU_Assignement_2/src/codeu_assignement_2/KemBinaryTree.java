@@ -71,44 +71,84 @@ public class KemBinaryTree <E> {
         {
             return m_root;
         }
-        /* Create a trace from child to root, and then return the last 
-           Common node onKemTreeNode the prefixes */
-        Stack<KemTreeNode<E>> st_c1 = getTraceChild2Root(child1);
-        Stack<KemTreeNode<E>> st_c2 = getTraceChild2Root(child2);
-        
-        KemTreeNode<E> common = null;
-        while((!st_c1.empty()) && (!st_c2.empty()))
+        /* Couts the edges between the node and the root */
+        int size_c1 = getSizeOfTraceChild2Root(child1);
+        int size_c2 = getSizeOfTraceChild2Root(child2);
+        if ((size_c1 == -1) || (size_c2 == -1))
         {
-            KemTreeNode<E> c1 = st_c1.pop();
-            KemTreeNode<E> c2 = st_c2.pop();
-            if (c1 != c2) 
-            {
-                return common;
-            }
-            
-            common = c1; /* when c1=c2 */
+            return null;
+        }
+        /* Is root one of them */
+        if ((size_c1 == 0) || (size_c2 == 0))
+        {
+            return this.m_root;
         }
         
-        /* return common, incase one stack is smaller than other, and we
-        Get to the last item in the smaller stack, which says it is the common */
+        /* If larger than 0 */ 
+        KemTreeNode<E> common = m_root; /* If root not null, the worst case is root */
+        int min = (size_c2 > size_c1)? size_c1 : size_c2;
+        int c1_loc = size_c1;
+        int c2_loc = size_c2;
+        KemTreeNode<E> curr1 = child1; 
+        KemTreeNode<E> curr2 = child2;
+        while((c1_loc > 0) && (c2_loc > 0)) /* >, can skip checking root, and if 0 return root */
+        {
+            if (c1_loc > min) 
+            {
+                curr1 = curr1.getParent();
+                c1_loc--;
+            } 
+            else if (c2_loc > min) 
+            {
+                curr2 = curr2.getParent();
+                c2_loc--;
+            } 
+            else if (c1_loc == c1_loc) 
+            {
+                if (curr1 == curr2)
+                {
+                    common = curr2;
+                    break;
+                }
+                
+                curr1 = curr1.getParent();
+                curr2 = curr2.getParent();
+                c1_loc--;
+                c2_loc--;
+            }
+            else /* Something went wrong */
+            {
+                throw new IndexOutOfBoundsException();
+            }
+        }
+        
+        /* Return the most inner common */
         return common;
     }
     
-    /* Create the trace from child to root, including the root and the child */
-    private Stack<KemTreeNode<E>> getTraceChild2Root(KemTreeNode<E> child)
+    /* Create the trace from child to root, including the root and the child 
+        Return -1 if m_root is null
+                0 if it is the root that it isn't null
+               >0 for any other location on the path
+    
+    */
+    private int getSizeOfTraceChild2Root(KemTreeNode<E> child)
     {
-        if (m_root == null) return null;
+        int ret_val = 0;
+        if (m_root == null) 
+        {
+            return ret_val;
+        }
         
-        /* Create the trace */
-        Stack<KemTreeNode<E>> st_c = new Stack();
+        /* Calculate the trace */
         KemTreeNode<E> curr = child;
         while (curr != null)
         {
-            st_c.push(curr);
+            ret_val++;
             curr = curr.getParent();
         }
         
-        return st_c;
+        return ret_val;
     }
        
     /* Check if a node is in the tree */
