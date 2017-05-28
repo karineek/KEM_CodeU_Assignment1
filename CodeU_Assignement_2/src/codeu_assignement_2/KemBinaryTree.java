@@ -15,7 +15,7 @@ import java.util.LinkedList;
  * 
  */
 public class KemBinaryTree <E> {
-        /* Data members of Tree */
+    /* Data members of Tree */
     protected KemTreeNode<E> m_root=null;
     
     /* */
@@ -206,16 +206,20 @@ public class KemBinaryTree <E> {
         KemTreeNode<E> tempR=parent.getRight();
        
         child.setParent(parent);
-        if (is2Left && tempL==null)
+        if (is2Left && (tempL==null))
+        {
             parent.setLeft(child);
-        else if (!is2Left && tempR==null)
+        }
+        else if (!is2Left && (tempR==null))
+        {
             parent.setRight(child);
+        }
         else /* General case */
         {
             if (is2Left && is2LeftChild) setLL(parent,child,tempL);
-            else if (is2Left && !is2LeftChild) setLR(parent,child,tempL);
-            else if (!is2Left && is2LeftChild) setRL(parent,child,tempR);
-            else if (!is2Left && !is2LeftChild) setRR(parent,child,tempR);
+            else if (is2Left && (!is2LeftChild)) setLR(parent,child,tempL);
+            else if ((!is2Left) && is2LeftChild) setRL(parent,child,tempR);
+            else if ((!is2Left) && (!is2LeftChild)) setRR(parent,child,tempR);
             else throw new IllegalArgumentException(); /* Not suppose to get here */
         }
        
@@ -264,7 +268,7 @@ public class KemBinaryTree <E> {
     /* Add all in BFS order (i.e., Breadth-First Traversal of a Tree) */
     public void addAll(ArrayList<E> children)
     {
-        // Checks before add
+        /* Checks before add */
         if (children == null) 
         {
             return; 
