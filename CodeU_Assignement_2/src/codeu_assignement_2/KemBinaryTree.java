@@ -60,11 +60,11 @@ public class KemBinaryTree <E> {
     public KemTreeNode<E> getLowestCommonAncestors(KemTreeNode<E> child1, KemTreeNode<E> child2)
     {
         /* No common if at least one is null */
-        if (child1 == null || child2 == null)
+        if ((child1 == null) || (child2 == null))
             return null;
         
         /* If one of them is the root - return it as the common */
-        if (child1 == m_root || child2 == m_root)
+        if ((child1 == m_root) || (child2 == m_root))
             return m_root;
         
         /* Create a trace from child to root, and then return the last 
@@ -73,7 +73,7 @@ public class KemBinaryTree <E> {
         Stack<KemTreeNode<E>> st_c2 = getTraceChild2Root(child2);
         
         KemTreeNode<E> common = null;
-        while(!st_c1.empty() && !st_c2.empty())
+        while((!st_c1.empty()) && (!st_c2.empty()))
         {
             KemTreeNode<E> c1 = st_c1.pop();
             KemTreeNode<E> c2 = st_c2.pop();
@@ -141,7 +141,9 @@ public class KemBinaryTree <E> {
             printTree(m_root, "");
         }
         else
+        {
             System.out.println("** Tree is Empty **");
+        }
         
         System.out.println();
     } 
@@ -169,32 +171,37 @@ public class KemBinaryTree <E> {
     public void addAt(KemTreeNode<E> parent, E child_data, boolean is2Left, boolean is2LeftChild)
     {             
         /* Check that the parents CAN be in the tree (not null tree) */
-        if (parent != null && m_root == null)
+        if ((parent != null) && (m_root == null))
              throw new NullPointerException("No tree found. Root is null.");   
             
         /* Creat a new node - child */
         KemTreeNode<E> child = new KemTreeNode<>(child_data, null,null,null);   
              
         /* Set the child as root (empry tree) */
-        if (parent == null && m_root == null)
+        if ((parent == null) && (m_root == null))
         {
             m_root = child;
             return;
         }
         
         /* Replace the root with child, the root will be the child of child */
-        if (parent == null && m_root != null)
+        if ((parent == null) && (m_root != null))
         {
             if (is2LeftChild)
+            {
                 child.setLeft(m_root);
+            } 
             else
+            {
                 child.setRight(m_root);
+            }
+            
             m_root = child;
             return;
         }
                 
         /* The general case - where the root and parent aren't null! */
-        if (parent == null || m_root == null)
+        if ((parent == null) || (m_root == null))
              throw new NullPointerException(); 
         
         /* Check if the parent is in the tree */
