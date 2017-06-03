@@ -32,7 +32,7 @@ public class main {
             return;
         }
         /* Else run the code of Q1 and Q2 */
-        if (args.length!=4)
+        if (args.length != 4)
         {
             System.out.println("Error: " + args.length 
                     + " parameters only. Expect somthing like: 1,2,3,4,5,6,7, TLL, T, TLL");      
@@ -52,13 +52,13 @@ public class main {
         
         /* Q1 */
         System.out.println("\n** Q1: Run Alg. **");
-        KemTreeNode<String> node=getNode(args[1], tree);
+        KemTreeNode<String> node = getNode(args[1], tree);
         tree.printAncestors(node);
         
         /* Q2 */
         System.out.println("\n** Q2: Run Alg. **");
-        KemTreeNode<String> node1=getNode(args[2], tree);
-        KemTreeNode<String> node2=getNode(args[3], tree);
+        KemTreeNode<String> node1 = getNode(args[2], tree);
+        KemTreeNode<String> node2 = getNode(args[3], tree);
         System.out.println("Common is: " + tree.getLowestCommonAncestors(node1, node2).getData());
     }
         
@@ -141,7 +141,7 @@ public class main {
                 return null;
             }   
                 
-            for (int i=0;i<path.length();i++)
+            for (int i = 0; i < path.length(); i ++)
             {
                 if (path.charAt(i) == 'L')
                 {

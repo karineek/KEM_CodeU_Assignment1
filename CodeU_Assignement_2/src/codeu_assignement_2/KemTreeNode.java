@@ -12,17 +12,17 @@ import java.util.Objects;
 public class KemTreeNode <E> 
 {
     private E data=null;
-    private KemTreeNode<E> parent=null;
-    private KemTreeNode<E> left=null;
-    private KemTreeNode<E> right=null;
-    public KemTreeNode(E d)
+    private KemTreeNode<E> parent = null;
+    private KemTreeNode<E> left = null;
+    private KemTreeNode<E> right = null;
+    public KemTreeNode (E d)
     {
         data = d;
         parent = null;
         left = null;
         right = null;
     }
-    public KemTreeNode(E d,KemTreeNode<E> p, KemTreeNode<E> l, KemTreeNode<E> r)
+    public KemTreeNode (E d,KemTreeNode<E> p, KemTreeNode<E> l, KemTreeNode<E> r)
     {
         data = d;
         parent = p;
@@ -30,19 +30,43 @@ public class KemTreeNode <E>
         right = r;
     }    
     /* Setters */
-    public void setParent(KemTreeNode<E> p) { parent = p; } 
-    public void setLeft(KemTreeNode<E> l)   { left = l; } 
-    public void setRight(KemTreeNode<E> r)  { right = r; } 
-    public void setData(E d) { data = d; } 
+    public void setParent (KemTreeNode<E> p) 
+    { 
+        parent = p; 
+    } 
+    public void setLeft (KemTreeNode<E> l)   
+    { 
+        left = l; 
+    } 
+    public void setRight (KemTreeNode<E> r)  
+    { 
+        right = r; 
+    } 
+    public void setData (E d) 
+    { 
+        data = d; 
+    } 
 
     /* Getter */
-    public KemTreeNode<E> getParent() { return parent; }
-    public KemTreeNode<E> getLeft() { return left; }
-    public KemTreeNode<E> getRight() { return right; }
-    public E getData() { return data; }
+    public KemTreeNode<E> getParent () 
+    { 
+        return parent; 
+    }
+    public KemTreeNode<E> getLeft () 
+    { 
+        return left; 
+    }
+    public KemTreeNode<E> getRight () 
+    { 
+        return right; 
+    }
+    public E getData () 
+    { 
+        return data; 
+    }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals (Object other) {
         /* Check corrner cases */
         if (other == null)
         {
@@ -68,7 +92,7 @@ public class KemTreeNode <E>
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode () {
         int hash = 5;
         hash = 31 * hash + Objects.hashCode(this.data);
         hash = 31 * hash + Objects.hashCode(this.parent);

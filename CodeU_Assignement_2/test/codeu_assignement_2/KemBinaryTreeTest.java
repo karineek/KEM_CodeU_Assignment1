@@ -52,13 +52,6 @@ public class KemBinaryTreeTest {
      * Test of printAncestors method, of class KemBinaryTree.
      */
     @Test
-    public void testPrintAncestorsNull() {
-        System.out.println("printAncestors");
-        KemTreeNode child = null;
-        KemBinaryTree instance = new KemBinaryTree();
-        instance.printAncestors(child);
-    }
-    @Test
     public void testPrintAncestors() {
         System.out.println("printAncestors");
         
@@ -74,7 +67,6 @@ public class KemBinaryTreeTest {
         t1.printAncestors(t1.getRoot().getLeft().getRight().getRight());
         t1.printAncestors(t1.getRoot().getRight().getRight().getRight());
         t1.printAncestors(t1.getRoot());
-        t1.printAncestors(t1.getRoot().getRight().getRight().getRight().getRight());
     }
     
     /**

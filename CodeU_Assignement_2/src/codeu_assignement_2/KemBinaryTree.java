@@ -2,9 +2,6 @@ package codeu_assignement_2;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Stack;
-import java.util.Queue;
-import java.util.LinkedList;
 
 /**
  *
@@ -16,35 +13,45 @@ import java.util.LinkedList;
  */
 public class KemBinaryTree <E> {
     /* Data members of Tree */
-    protected KemTreeNode<E> m_root=null;
+    protected KemTreeNode<E> m_root = null;
     
     /* */
-    public KemBinaryTree(){} 
+    public KemBinaryTree (){} 
             
     /*  Check if the list is empty  */
-    public boolean isEmpty() { return (m_root == null); }
+    public boolean isEmpty () 
+    { 
+        return m_root == null; 
+    }
     
     /* Allow us to decide where to add items */
-    public KemTreeNode<E> getRoot() { return m_root;}
+    public KemTreeNode<E> getRoot () 
+    { 
+        return m_root;
+    }
     
-    /* Q1: Get all ancestors */
-    public void printAncestors(KemTreeNode<E> child)
+    /* Q1: Get all ancestors 
+       =====================
+    
+    Input: a Binary Tree -  KemBinaryTree and a key 
+    Process: if the child or the tree is null - return null
+             else: Traverse from Child to Parent, this will be also
+             the order of the output
+    Output: prints all the ancestors of the key in the tree 
+                      + Status message (avoid empty prints)
+    
+    */
+    public void printAncestors (KemTreeNode<E> child)
     {  
         /* Check if child isn't null */
         if (child == null)
         {
-            System.out.println("Error: ** Null Pointer **");
-            return;
+            throw new NullPointerException("Error: ** Null Pointer **");
         }
         
         /* Check if child isn't root */
         KemTreeNode<E> curr = child.getParent();
-        if (curr == null)
-        {
-            System.out.println("** Root **: has no ancestors. Done.");
-            return;
-        }
-        
+
         /* Print all ancestors as long as didn't get to root */
         while (curr != null)
         {
@@ -55,11 +62,20 @@ public class KemBinaryTree <E> {
                 System.out.print(",");
             }
         }
-        System.out.println(". Done printAncestors(..).");
+        
+        /* Print Status Message */
+        if (child.getParent() == null)
+        {
+            System.out.println("** Root **: has no ancestors. Done.");
+        } 
+        else 
+        {
+            System.out.println(". Done printAncestors(..).");
+        }
     }
 
     /* Q2: Get all ancestors */
-    public KemTreeNode<E> getLowestCommonAncestors(KemTreeNode<E> child1, KemTreeNode<E> child2)
+    public KemTreeNode<E> getLowestCommonAncestors (KemTreeNode<E> child1, KemTreeNode<E> child2)
     {
         /* No common if at least one is null */
         if ((child1 == null) || (child2 == null))
@@ -72,38 +88,31 @@ public class KemBinaryTree <E> {
             return m_root;
         }
         /* Couts the edges between the node and the root */
-        int size_c1 = getSizeOfTraceChild2Root(child1);
-        int size_c2 = getSizeOfTraceChild2Root(child2);
-        if ((size_c1 == -1) || (size_c2 == -1))
-        {
-            return null;
-        }
-        /* Is root one of them */
-        if ((size_c1 == 0) || (size_c2 == 0))
-        {
-            return this.m_root;
-        }
+        int c1_loc = getSizeOfTraceChildToRoot(child1);
+        int c2_loc = getSizeOfTraceChildToRoot(child2);
         
         /* If larger than 0 */ 
         KemTreeNode<E> common = m_root; /* If root not null, the worst case is root */
-        int min = (size_c2 > size_c1)? size_c1 : size_c2;
-        int c1_loc = size_c1;
-        int c2_loc = size_c2;
+        int min = (c2_loc > c1_loc)? c1_loc : c2_loc;
         KemTreeNode<E> curr1 = child1; 
         KemTreeNode<E> curr2 = child2;
+        
+        /* Go up the tree till the meet level */
+        while(c1_loc > min)
+        {
+            curr1 = curr1.getParent();
+            c1_loc--;
+        }
+        while(c2_loc > min)
+        {
+            curr2 = curr2.getParent();
+            c2_loc--;
+        }
+              
+        /* Search the meet point going one level up each iteration */
         while((c1_loc > 0) && (c2_loc > 0)) /* >, can skip checking root, and if 0 return root */
         {
-            if (c1_loc > min) 
-            {
-                curr1 = curr1.getParent();
-                c1_loc--;
-            } 
-            else if (c2_loc > min) 
-            {
-                curr2 = curr2.getParent();
-                c2_loc--;
-            } 
-            else if (c1_loc == c1_loc) 
+            if (c1_loc == c1_loc) 
             {
                 if (curr1 == curr2)
                 {
@@ -131,8 +140,10 @@ public class KemBinaryTree <E> {
                 0 if it is the root that it isn't null
                >0 for any other location on the path
     
+    Output: is unsigned number >= 0
+    
     */
-    private int getSizeOfTraceChild2Root(KemTreeNode<E> child)
+    private int getSizeOfTraceChildToRoot (KemTreeNode<E> child)
     {
         int ret_val = 0;
         if (m_root == null) 
@@ -144,7 +155,7 @@ public class KemBinaryTree <E> {
         KemTreeNode<E> curr = child;
         while (curr != null)
         {
-            ret_val++;
+            ret_val ++;
             curr = curr.getParent();
         }
         
@@ -152,10 +163,10 @@ public class KemBinaryTree <E> {
     }
        
     /* Check if a node is in the tree */
-    public boolean exist(KemTreeNode<E> n)
+    public boolean exist (KemTreeNode<E> n)
     {
         /* Go over the tree in pre-order */
-        if (m_root!=null)
+        if (m_root != null)
         {
             return exist(n,m_root);
         }
@@ -166,10 +177,10 @@ public class KemBinaryTree <E> {
     } 
     
     /* Check if a node is in the tree - Helper method for the recursion */
-    private boolean exist(KemTreeNode<E> n, KemTreeNode<E> curr)
+    private boolean exist (KemTreeNode<E> n, KemTreeNode<E> curr)
     {
         /* Go over the tree in pre-order */
-        if (curr!=null)
+        if (curr != null)
         {
             if (curr.equals(n)) 
             { 
@@ -192,10 +203,10 @@ public class KemBinaryTree <E> {
     }
 
     /* From Root, print in pre-order the tree */
-    public void printTree()
+    public void printTree ()
     {
         /* Go over the tree in pre-order */
-        if (m_root!=null) 
+        if (m_root != null) 
         {
             System.out.println("Tree: ");
             printTree(m_root, "");
@@ -210,16 +221,16 @@ public class KemBinaryTree <E> {
     
     /* Check if a node is in the tree - Helper method for the recursion
        Print in Pre-order */
-    private void printTree(KemTreeNode<E> curr, String indent)
+    private void printTree (KemTreeNode<E> curr, String indent)
     {
         /* Go over the tree in pre-order */
-        if (curr!=null)
+        if (curr != null)
         {
-            System.out.println(indent+"|"+curr.getData());
+            System.out.println(indent + "|" + curr.getData());
             
             /* Check if in Left or Right sub-trees */
-            printTree(curr.getLeft(), indent+" ");
-            printTree(curr.getRight(), indent+" ");        
+            printTree(curr.getLeft(), indent + " ");
+            printTree(curr.getRight(), indent + " ");        
         }
     }
     
@@ -228,7 +239,7 @@ public class KemBinaryTree <E> {
      * How? if is2Left add child as left of parent, else as right of parent
      * if is2LeftChild - add the original child of parent as left of child (else as right of child)
     */ 
-    public void addAt(KemTreeNode<E> parent, E child_data, boolean is2Left, boolean is2LeftChild)
+    public void addAt (KemTreeNode<E> parent, E child_data, boolean is2Left, boolean is2LeftChild)
     {             
         /* Check that the parents CAN be in the tree (not null tree) */
         if ((parent != null) && (m_root == null))
@@ -273,15 +284,15 @@ public class KemBinaryTree <E> {
         }
         
         /* Add the child */
-        KemTreeNode<E> tempL=parent.getLeft();
-        KemTreeNode<E> tempR=parent.getRight();
+        KemTreeNode<E> tempL = parent.getLeft();
+        KemTreeNode<E> tempR = parent.getRight();
        
         child.setParent(parent);
-        if (is2Left && (tempL==null))
+        if (is2Left && (tempL == null))
         {
             parent.setLeft(child);
         }
-        else if (!is2Left && (tempR==null))
+        else if (!is2Left && (tempR == null))
         {
             parent.setRight(child);
         }
@@ -312,7 +323,7 @@ public class KemBinaryTree <E> {
     } /* End of addAt */
 
     /* When add to left and connect to Left */
-    private void setLL(KemTreeNode<E> a, KemTreeNode<E> b, KemTreeNode<E> c)
+    private void setLL (KemTreeNode<E> a, KemTreeNode<E> b, KemTreeNode<E> c)
     {
         a.setLeft(b);
         b.setLeft(c);
@@ -322,7 +333,7 @@ public class KemBinaryTree <E> {
     }
     
     /* When add to left and connect to Right */
-    private void setLR(KemTreeNode<E> a, KemTreeNode<E> b, KemTreeNode<E> c)
+    private void setLR (KemTreeNode<E> a, KemTreeNode<E> b, KemTreeNode<E> c)
     {
         a.setLeft(b);
         b.setRight(c);
@@ -342,7 +353,7 @@ public class KemBinaryTree <E> {
     }
     
     /* When add to Right and connect to Right */
-    private void setRR(KemTreeNode<E> a, KemTreeNode<E> b, KemTreeNode<E> c)
+    private void setRR (KemTreeNode<E> a, KemTreeNode<E> b, KemTreeNode<E> c)
     {
         a.setRight(b);
         b.setRight(c);
@@ -352,7 +363,7 @@ public class KemBinaryTree <E> {
     }
     
     /* Add all in BFS order (i.e., Breadth-First Traversal of a Tree) */
-    public void addAll(ArrayList<E> children)
+    public void addAll (ArrayList<E> children)
     {
         /* Checks before add */
         if (children == null) 
@@ -365,7 +376,7 @@ public class KemBinaryTree <E> {
         }
         
         /* Start adding the items */
-        Queue<KemTreeNode<E>> qn = new LinkedList<>();
+        java.util.Queue<KemTreeNode<E>> qn = new java.util.LinkedList<>();
         boolean is2Left = true;        
         Iterator<E> itr = children.iterator();
         
