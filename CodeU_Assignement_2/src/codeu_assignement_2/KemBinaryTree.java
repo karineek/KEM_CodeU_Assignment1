@@ -2,6 +2,7 @@ package codeu_assignement_2;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -127,7 +128,7 @@ public class KemBinaryTree <E> {
             }
             else /* Something went wrong */
             {
-                throw new IndexOutOfBoundsException();
+                throw new NoSuchElementException();
             }
         }
         
