@@ -7,6 +7,8 @@ package codeu_assignement_3;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import static javafx.scene.input.KeyCode.T;
 
 /**
  *
@@ -27,7 +29,9 @@ public class SimpleDictionary implements KemDictionary
     {
         if (wordsInDict != null)
         {
-            m_dict.addAll(Arrays.asList(wordsInDict));
+            List<String> temp = Arrays.asList(wordsInDict);
+            temp.replaceAll(String::toUpperCase);
+            m_dict.addAll(temp);
         }
     }
     
@@ -37,7 +41,7 @@ public class SimpleDictionary implements KemDictionary
     @Override
     public boolean isWord (String w)
     {
-        return m_dict.contains(w);
+        return m_dict.contains(w.toUpperCase());
     }
     
     
@@ -55,8 +59,9 @@ public class SimpleDictionary implements KemDictionary
         
         /* Else search if is a prefix */
         final ArrayList<String> dict_temp = new ArrayList<>();
+        String p_u = p.toUpperCase();
         m_dict.forEach(str -> {
-	    if(str.startsWith(p)) 
+	    if(str.startsWith(p_u)) 
             {
                 dict_temp.add(str);
             }

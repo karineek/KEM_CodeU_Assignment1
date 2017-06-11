@@ -2,6 +2,7 @@ package codeu_assignement_3;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -9,25 +10,23 @@ import java.util.Arrays;
  */
 public class KemWordSearch 
 {
-    private KemDictionary m_dictionary;
-    
-    public KemWordSearch (KemDictionary dictionary) 
-    {
-        m_dictionary = dictionary; 
-        /* To search word must init first with the dictionary we wish to search in */
-    }
-    
     /*
-    Input: the number of rows, number of columns, a 2-dimensional array of characters (of the native char data type)
+    Input: the number of rows, number of columns, 
+           a 2-dimensional array of characters (of the native char data type)
+           a dictionary
     
     Process: 
     
     Output: return the set of all-words found
     */
-    String[] wordSearch(int row, int col, char[][] grid)
+    String[] wordSearch(int row, int col, char[][] grid, KemDictionary dictionary)
     {
         /* Corner cases */ 
         if (grid == null) {
+            return null;
+        }
+        if (dictionary == null)
+        {
             return null;
         }
         
@@ -40,14 +39,20 @@ public class KemWordSearch
             {
                 /* Search for all the words from a specific location */
                 String[] ret_inner 
-                        = wordSearchFromPossition(row,col,grid,r,c,"");
-                ret_temp.addAll(Arrays.asList(ret_inner));
+                        = wordSearchFromPossition(row,col,grid,dictionary,r,c,"");
+                
+                /* If there is something to add, add it */
+                if (ret_inner != null)
+                {
+                    ret_temp.addAll(Arrays.asList(ret_inner));
+                }
             }
         }
         
         /* Return the set from any start point */
-        String[] ret = ret_temp.toArray(new String[0]);
-        return ret;
+        return (ret_temp.isEmpty()) ? null : (ret_temp
+                .stream().distinct().collect(Collectors.toList())) /* Set=no duplicates: remove if there are */
+                .toArray(new String[0]);
     }
     
     /*
@@ -64,38 +69,39 @@ public class KemWordSearch
        
         output: All the possible word of the current prefix. 
     */
-    private String[] wordSearchFromPossition(int row, int col, char[][] grid, 
+    private String[] wordSearchFromPossition(int row, int col, char[][] grid,
+                                    KemDictionary dictionary,
                                     int row_curr, int col_curr, String prefix)
-    {
+    {        
         /* End of the recursion condition */
         if ((row_curr == row) || (col_curr == col)) 
         {
-            return null;
+            return new String[0];
         }
         
         if ((row_curr < 0) || (col_curr < 0))
         {
-            return null;
+            return new String[0];
         }
         
         /* If was here and use this possition (r,c) exit, cannot use twice */
         if (grid[row_curr][col_curr] == '-')
         {
-            return null;
+            return new String[0];
         }
         
         /* Create the current prefix to check if it is a valid prefix */
         String new_prefix = prefix + grid[row_curr][col_curr];
-        if (!m_dictionary.isPrefix(new_prefix))
+        if (!dictionary.isPrefix(new_prefix))
         {
-            return null; 
+            return new String[0];
         }
         
         /* If it is a prefix of a word in the dictionary, try to add words */
         ArrayList<String> ret_temp = new ArrayList<>();
         
         /* Current cell */
-        if (m_dictionary.isWord(new_prefix))
+        if (dictionary.isWord(new_prefix))
         {
             ret_temp.add(new_prefix);
         }
@@ -106,21 +112,21 @@ public class KemWordSearch
         
         /* Call in recurssion to search in all near posstions */
         ret_temp.addAll(Arrays.asList(wordSearchFromPossition
-                            (row,col,grid,row_curr -1,col_curr,new_prefix)));
+                            (row,col,grid,dictionary,row_curr -1,col_curr,new_prefix)));
         ret_temp.addAll(Arrays.asList(wordSearchFromPossition
-                            (row,col,grid,row_curr +1,col_curr,new_prefix)));
+                            (row,col,grid,dictionary,row_curr +1,col_curr,new_prefix)));
         ret_temp.addAll(Arrays.asList(wordSearchFromPossition
-                            (row,col,grid,row_curr,col_curr -1,new_prefix)));
+                            (row,col,grid,dictionary,row_curr,col_curr -1,new_prefix)));
         ret_temp.addAll(Arrays.asList(wordSearchFromPossition
-                            (row,col,grid,row_curr,col_curr +1,new_prefix)));
+                            (row,col,grid,dictionary,row_curr,col_curr +1,new_prefix)));
         ret_temp.addAll(Arrays.asList(wordSearchFromPossition
-                            (row,col,grid,row_curr -1,col_curr -1,new_prefix)));
+                            (row,col,grid,dictionary,row_curr -1,col_curr -1,new_prefix)));
         ret_temp.addAll(Arrays.asList(wordSearchFromPossition
-                            (row,col,grid,row_curr -1,col_curr +1,new_prefix)));
+                            (row,col,grid,dictionary,row_curr -1,col_curr +1,new_prefix)));
         ret_temp.addAll(Arrays.asList(wordSearchFromPossition
-                            (row,col,grid,row_curr +1,col_curr -1,new_prefix)));
+                            (row,col,grid,dictionary,row_curr +1,col_curr -1,new_prefix)));
         ret_temp.addAll(Arrays.asList(wordSearchFromPossition
-                            (row,col,grid,row_curr +1,col_curr +1,new_prefix)));        
+                            (row,col,grid,dictionary,row_curr +1,col_curr +1,new_prefix)));        
         
         /* Free the current location to be used in other search, that didn't use it yet! */
         grid[row_curr][col_curr] = current;
