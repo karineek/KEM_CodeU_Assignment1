@@ -97,7 +97,7 @@ public class KemWordSearchTest {
      */
     @Test
     public void testWordSearch() {
-        System.out.println("wordSearch Empty Dictionary");
+        System.out.println("wordSearch wiht Dictionary");
         int row = 2;
         int col = 3;
         char[][] grid = {{'A','A','R'},{'T','C','D'}};
@@ -105,6 +105,40 @@ public class KemWordSearchTest {
         SimpleDictionary dict = new SimpleDictionary(dict_word);
         KemWordSearch instance = new KemWordSearch();
         String[] expResult = {"CAR", "CARD", "CAT"};
+        String[] result = instance.wordSearch(row, col, grid,dict);
+        assertArrayEquals(expResult, result);
+    }
+    
+    /**
+     * Test of wordSearch method, of class KemWordSearch.
+     */
+    @Test
+    public void testWordSearch2() {
+        System.out.println("wordSearch with Dictionary (2)");
+        int row = 3;
+        int col = 2;
+        char[][] grid = {{'A','T'},{'A','C'},{'R','D'}};
+        String[] dict_word = {"CAR", "CARD", "CART", "CAT","AT","FACE","COOL","OPEN","RAT"};
+        SimpleDictionary dict = new SimpleDictionary(dict_word);
+        KemWordSearch instance = new KemWordSearch();
+        String[] expResult = {"AT","CAR", "CARD", "CAT","RAT"};
+        String[] result = instance.wordSearch(row, col, grid,dict);
+        assertArrayEquals(expResult, result);
+    }
+    
+    /**
+     * Test of wordSearch method, of class KemWordSearch.
+     */
+    @Test
+    public void testWordSearch3() {
+        System.out.println("wordSearch with Dictionary (3)");
+        int row = 3;
+        int col = 3;
+        char[][] grid = {{'A','T','I'},{'A','C','J'},{'R','D','K'}};
+        String[] dict_word = {"CAR", "CARD", "CART", "CAT","AT","FACE","COOL","OPEN","RAT","I","ARC"};
+        SimpleDictionary dict = new SimpleDictionary(dict_word);
+        KemWordSearch instance = new KemWordSearch();
+        String[] expResult = {"AT","I","ARC","CAR", "CARD", "CAT","RAT"};
         String[] result = instance.wordSearch(row, col, grid,dict);
         assertArrayEquals(expResult, result);
     }
