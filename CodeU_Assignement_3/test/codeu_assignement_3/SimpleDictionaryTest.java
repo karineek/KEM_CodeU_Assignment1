@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package codeu_assignement_3;
 
 import org.junit.AfterClass;
@@ -13,6 +8,10 @@ import static org.junit.Assert.*;
 /**
  *
  * @author Karine
+ * 
+ * Test two methods: isWord and isPrefix with different sized of dictionary
+ * Null, Empty, with only one word (single word), and a small dictionary with several words
+ * 
  */
 public class SimpleDictionaryTest {
     
@@ -27,9 +26,6 @@ public class SimpleDictionaryTest {
     public static void tearDownClass() {
     }
 
-    /**
-     * Test of isWord method, of class SimpleDictionary.
-     */
     @Test
     public void testIsWordNullDict() {
         System.out.println("isWord Null dictionary");
@@ -40,9 +36,6 @@ public class SimpleDictionaryTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of isPrefix method, of class SimpleDictionary.
-     */
     @Test
     public void testIsPrefixNullDict() {
         System.out.println("isPrefix Null dictionary");
@@ -53,9 +46,6 @@ public class SimpleDictionaryTest {
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of isWord method, of class SimpleDictionary.
-     */
     @Test
     public void testIsWordEmptyDict() {
         System.out.println("isWord Empty dictionary");
@@ -67,9 +57,6 @@ public class SimpleDictionaryTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of isPrefix method, of class SimpleDictionary.
-     */
     @Test
     public void testIsPrefixEmptyDict() {
         System.out.println("isPrefix Empty dictionary");
@@ -81,9 +68,6 @@ public class SimpleDictionaryTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of isWord method, of class SimpleDictionary.
-     */
     @Test
     public void testIsWordSingleWordDict_F() {
         System.out.println("isWord SingleWord dictionary (F)");
@@ -96,9 +80,6 @@ public class SimpleDictionaryTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of isPrefix method, of class SimpleDictionary.
-     */
     @Test
     public void testIsPrefixSingleWordDict_F() {
         System.out.println("isPrefix SingleWord dictionary (F)");
@@ -123,10 +104,7 @@ public class SimpleDictionaryTest {
         assertEquals(expResult, result5);
     } 
 
-    /**
-     * Test of isWord method, of class SimpleDictionary.
-     */
-    @Test
+   @Test
     public void testIsWordSingleWordDict_T() {
         System.out.println("isWord SingleWord dictionary (T)");
         String w = "cat";
@@ -137,28 +115,27 @@ public class SimpleDictionaryTest {
         boolean result = instance.isWord(w);
         assertEquals(expResult, result);
     }
-
-    /**
-     * Test of isPrefix method, of class SimpleDictionary.
-     */
     @Test
     public void testIsPrefixSingleWordDict_T() {
         System.out.println("isPrefix SingleWord dictionary (T)");
         String p1 = "c";
         String p2 = "ca";
+        String p3 = "cat";
+        String p4 = "";
         String[] dict = new String[1];
         dict[0] = "cat";
         SimpleDictionary instance = new SimpleDictionary(dict);
         boolean expResult = true;
         boolean result1 = instance.isPrefix(p1);
         boolean result2 = instance.isPrefix(p2);
+        boolean result3 = instance.isPrefix(p3);
+        boolean result4 = instance.isPrefix(p4);
         assertEquals(expResult, result1);
         assertEquals(expResult, result2);
+        assertEquals(expResult, result3);
+        assertEquals(expResult, result4);
     }  
 
-    /**
-     * Test of isWord method, of class SimpleDictionary.
-     */
     @Test
     public void testIsWordSmallDict_F() {
         System.out.println("isWord Small dictionary (F)");
@@ -170,9 +147,6 @@ public class SimpleDictionaryTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of isPrefix method, of class SimpleDictionary.
-     */
     @Test
     public void testIsPrefixSmallDict_F() {
         System.out.println("isPrefix Small dictionary (F)");
@@ -187,9 +161,6 @@ public class SimpleDictionaryTest {
         assertEquals(expResult, result2);
     } 
 
-    /**
-     * Test of isWord method, of class SimpleDictionary.
-     */
     @Test
     public void testIsWordSmallDict_T() {
         System.out.println("isWord Small dictionary (T)");
@@ -206,10 +177,7 @@ public class SimpleDictionaryTest {
         assertEquals(expResult, result2);
         assertEquals(expResult, result3);
     }
-
-    /**
-     * Test of isPrefix method, of class SimpleDictionary.
-     */
+    
     @Test
     public void testIsPrefixSmallDict_T() {
         System.out.println("isPrefix Small dictionary (T)");
