@@ -1,6 +1,5 @@
 package codeu_assignement_3;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
