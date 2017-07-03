@@ -8,16 +8,9 @@ import static org.junit.Assert.*;
  * @author Karine
  */
 public class KEMIslandsFinderTest {
-    
     public KEMIslandsFinderTest() {
     }
     
-    public static void setUpClass() {
-    }
-    
-    public static void tearDownClass() {
-    }
-
     @Test
     public void testCountIslandsEmptyMap() {
         System.out.println("countIslands for empty map");
@@ -40,7 +33,7 @@ public class KEMIslandsFinderTest {
     
     @Test
     public void testCountIslandsyMap1x1SingleIsland() {
-        System.out.println("countIslands for 1x1 map with single islands");
+        System.out.println("countIslands for 1x1 map with single island");
         int row = 1;
         int col = 1;
         boolean[][] map = {{true}};
@@ -50,7 +43,7 @@ public class KEMIslandsFinderTest {
     
     @Test
     public void testCountIslandsyMap2x1NoIsland() {
-        System.out.println("countIslands for 2x1 map with no islands");
+        System.out.println("countIslands for 2x1 map with no island");
         int row = 2;
         int col = 1;
         boolean[][] map = {{false},{false}};
@@ -60,7 +53,7 @@ public class KEMIslandsFinderTest {
     
     @Test
     public void testCountIslandsyMap1x2SingleIsland() {
-        System.out.println("countIslands for 1x2 map with single islands");
+        System.out.println("countIslands for 1x2 map with single island");
         int row = 1;
         int col = 2;
         boolean[][] map = {{true,true}};
@@ -73,7 +66,7 @@ public class KEMIslandsFinderTest {
         System.out.println("countIslands for 2x2 map with single islands");
         int row = 2;
         int col = 2;
-        boolean[][] map = {{true,false},{false,true}};
+        boolean[][] map = {{false,false},{false,true}};
         KEMIslandsFinder instance = new KEMIslandsFinder();
         assertEquals(1, instance.countIslands(row, col, map));
     }
@@ -93,7 +86,8 @@ public class KEMIslandsFinderTest {
         System.out.println("countIslands for 5x5 map with 3 islands");
         int row = 5;
         int col = 5;
-        boolean[][] map = {{true,false,false,false,true},
+        boolean[][] map = {
+                {true,false,false,false,true},
 		{true,false,false,false,false},
 		{false,false,true,true,false},
 		{false,false,false,true,false},
@@ -104,7 +98,7 @@ public class KEMIslandsFinderTest {
     
     @Test
     public void testCountIslandsyMap7x7() {
-        System.out.println("countIslands for 7x7 map with 1 island");
+        System.out.println("countIslands for 7x7 map with 13 islands");
         int row = 7;
         int col = 7;
         boolean[][] map = {
@@ -117,12 +111,12 @@ public class KEMIslandsFinderTest {
             {true,false,false,false,false,false,true}
 		};
         KEMIslandsFinder instance = new KEMIslandsFinder();
-        assertEquals(1, instance.countIslands(row, col, map));
+        assertEquals(13, instance.countIslands(row, col, map));
     }
     
     @Test
     public void testCountIslandsyMap5x3() {
-        System.out.println("countIslands for 5x3 map with 2 islands");
+        System.out.println("countIslands for 5x3 map with 3 islands");
         int row = 5;
         int col = 3;
         boolean[][] map = {{true,false,false},
@@ -131,7 +125,7 @@ public class KEMIslandsFinderTest {
 		{false,false,true},
 		{false,true,false}};
         KEMIslandsFinder instance = new KEMIslandsFinder();
-        assertEquals(2, instance.countIslands(row, col, map));
+        assertEquals(3, instance.countIslands(row, col, map));
     }
     
     @Test
@@ -145,5 +139,23 @@ public class KEMIslandsFinderTest {
 		{true,false,true,false,true}};
         KEMIslandsFinder instance = new KEMIslandsFinder();
         assertEquals(5, instance.countIslands(row, col, map));
+    }
+    
+    @Test
+    public void testCountIslandsInAnotherIsland() {
+        System.out.println("countIslands for 7x7 map with 2 island");
+        int row = 7;
+        int col = 7;
+        boolean[][] map = {
+            {false,false,false,false,false,false,false},
+            {false,true,true,true,true,true,false},
+            {false,true,false,false,false,true,false},
+            {false,true,false,true,false,true,false},
+            {false,true,false,false,false,true,false},
+            {false,true,true,true,true,true,false},
+            {false,false,false,false,false,false,false}
+		};
+        KEMIslandsFinder instance = new KEMIslandsFinder();
+        assertEquals(2, instance.countIslands(row, col, map));
     }
 }
