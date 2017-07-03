@@ -15,12 +15,6 @@ public class SimpleDictionaryTest {
     
     public SimpleDictionaryTest() {
     }
-    
-    public static void setUpClass() {
-    }
-    
-    public static void tearDownClass() {
-    }
 
     @Test
     public void testIsWordNullDict() {
