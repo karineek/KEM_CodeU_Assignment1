@@ -107,4 +107,13 @@ public class KemUnknownLanguageTest {
         String[] words = {"ART", "ARC", "AC", "AA"};
         assertEquals(Arrays.asList(list), instance.getAlphabeit(words));
     }
+    
+    @Test
+    public void testGetAlphabeitTest6() {
+        System.out.println("getAlphabeit from review");
+        KemUnknownLanguage instance = new KemUnknownLanguage();
+        Character[] list = {'A','R','C','D','T'};
+        String[] words = {"AC", "DR", "D", "TAR", "TAC", "TAD"};
+        assertEquals(Arrays.asList(list), instance.getAlphabeit(words));
+    }
 }

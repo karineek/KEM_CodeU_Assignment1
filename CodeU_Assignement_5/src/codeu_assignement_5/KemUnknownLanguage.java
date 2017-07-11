@@ -54,7 +54,7 @@ public class KemUnknownLanguage {
         }
         
         for (String w : words) {
-            if (!ret.contains(w.charAt(prefixSize))) {
+            if ((w.length() > prefixSize) && (!ret.contains(w.charAt(prefixSize)))) {
                 ret.add(w.charAt(prefixSize));
             }
         }   
