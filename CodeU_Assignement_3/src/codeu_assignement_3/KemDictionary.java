@@ -9,6 +9,15 @@ package codeu_assignement_3;
  */
 public interface KemDictionary 
 {
+    /* 
+       Returns whether the given string is a valid word 
+    */
     public boolean isWord (String w);
+    
+    
+    /* 
+       Returns whether the given string is a prefix of at 
+       least one word in thedictionary 
+    */
     public boolean isPrefix (String p);
 }
