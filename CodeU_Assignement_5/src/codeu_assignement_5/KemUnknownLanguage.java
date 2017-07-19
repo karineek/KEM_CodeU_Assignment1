@@ -9,34 +9,34 @@ import java.util.List;
  */
 public class KemUnknownLanguage {
     /*
-     * Input: a dictionary (a list of words in lexicographic order) of all words in an unknown/invented language, 
+     * Input: a alphabetionary (a list of words in lexicographic order) of all words in an unknown/invented language, 
     *  Output: alphabet (an ordered list of characters) of that language, letters we cannot decide are appended in the end.
     */
     public List<Character> getAlphabeit(String[] alienWords) {
-        List<Character> dict = null;
+        List<Character> alphabet = null;
         if ((alienWords != null) && (alienWords.length > 0))
         {
            /* Get the current order by prefix size, starting from 0 */
-            dict = getBasicAlphaBeit(alienWords, 0); /* Basic Alphabeit */ 
+            alphabet = getBasicAlphaBeit(alienWords, 0); /* Basic Alphabeit */ 
             /* A,R,C from the example! */
 
             /* Add from prefix while there are letters after first letter of prefix */
-            while (!addToDictByPrefix(alienWords, dict)){} 
+            while (!addToDictByPrefix(alienWords, alphabet)){} 
 
             /* Add all the chars we cannot decide in the end*/
             for (String w : alienWords) 
             {
                 for (Character c: w.toCharArray())
                 {
-                    if (!dict.contains(c))
+                    if (!alphabet.contains(c))
                     {
-                        dict.add(c);
+                        alphabet.add(c);
                     }
                 }
             }
         }
 
-        return dict;
+        return alphabet;
     }    
     
     /*
@@ -61,11 +61,11 @@ public class KemUnknownLanguage {
     }
     
     /*
-     * Gives the prefix of a char that isn't in the dictionary
+     * Gives the prefix of a char that isn't in the alphabetionary
     */
-    private int getSizeOfPrefix(String w, List<Character> dict) {
+    private int getSizeOfPrefix(String w, List<Character> alphabet) {
         for (int i=0; i < w.length(); i++) {
-            if (!dict.contains(w.charAt(i))) {
+            if (!alphabet.contains(w.charAt(i))) {
                 return i;
             }
         }
@@ -105,32 +105,32 @@ public class KemUnknownLanguage {
     }
     
     /*
-     * Get two dictionary with common latters and merge them into the first dict,
+     * Get two alphabetionary with common latters and merge them into the first alphabet,
      * if none, cannot know, add all these cases later on
     */
-    private void mergeDict(List<Character> dict1, List<Character> dict2) {
+    private void mergeDict(List<Character> alphabet1, List<Character> alphabet2) {
         int from2 = 0;  
-        for (int i=0; i < dict2.size(); i++) {
-            if (dict1.contains(dict2.get(i))) {
+        for (int i=0; i < alphabet2.size(); i++) {
+            if (alphabet1.contains(alphabet2.get(i))) {
                 /* Find common point, merge here! */
-                dict1.addAll(dict1.indexOf(dict2.get(i)), dict2.subList(from2, i));
+                alphabet1.addAll(alphabet1.indexOf(alphabet2.get(i)), alphabet2.subList(from2, i));
                 from2 = i+1;
             }        
         }
     }
     
-    private boolean addToDictByPrefix(String[] alienWords, List<Character> dict) {
+    private boolean addToDictByPrefix(String[] alienWords, List<Character> alphabet) {
         boolean hasReachMaxPrefix = true;
         for (int i=0; i < alienWords.length; i++) {
-            int prefixSize = getSizeOfPrefix(alienWords[i], dict);
+            int prefixSize = getSizeOfPrefix(alienWords[i], alphabet);
             if (prefixSize != alienWords[i].length()) {
                 String[] sublistWords = getWordsWithSamePrefix(alienWords, i, prefixSize);
                 if (sublistWords.length > 1) {
                     List<Character> tempDict = getBasicAlphaBeit(sublistWords, prefixSize);
                     if (!tempDict.isEmpty()) {
-                        int dictSize = dict.size();
-                        mergeDict(dict,tempDict);
-                        if (dictSize != dict.size()) {
+                        int alphabetSize = alphabet.size();
+                        mergeDict(alphabet,tempDict);
+                        if (alphabetSize != alphabet.size()) {
                             hasReachMaxPrefix = false;
                         }
                     }
