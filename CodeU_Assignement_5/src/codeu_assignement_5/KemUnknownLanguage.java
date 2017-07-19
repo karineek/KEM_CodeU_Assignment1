@@ -13,33 +13,31 @@ public class KemUnknownLanguage {
     *  Output: alphabet (an ordered list of characters) of that language, letters we cannot decide are appended in the end.
     */
     public List<Character> getAlphabeit(String[] alienWords) {
-        if ((alienWords != null) && (alienWords.length > 0)) {
-           return extractAlphabeitFromWords(alienWords);
-        }
-        
-        return null;
-    }
+        List<Character> dict = null;
+        if ((alienWords != null) && (alienWords.length > 0))
+        {
+           /* Get the current order by prefix size, starting from 0 */
+            dict = getBasicAlphaBeit(alienWords, 0); /* Basic Alphabeit */ 
+            /* A,R,C from the example! */
 
-    private List<Character> extractAlphabeitFromWords(String[] alienWords) {
-        /* Get the current order by prefix size, starting from 0 */
-        List<Character> dict = getBasicAlphaBeit(alienWords, 0); /* Basic Alphabeit */ 
-        /* A,R,C from the example! */
+            /* Add from prefix while there are letters after first letter of prefix */
+            while (!addToDictByPrefix(alienWords, dict)){} 
 
-        /* Add from prefix while there are letters after first letter of prefix */
-        while (!addToDictByPrefix(alienWords, dict)){} 
-
-        /* Add all the chars we cannot decide in the end*/
-        for (String w : alienWords) {
-            for (Character c: w.toCharArray()) {
-                if (!dict.contains(c)) {
-                    dict.add(c);
+            /* Add all the chars we cannot decide in the end*/
+            for (String w : alienWords) 
+            {
+                for (Character c: w.toCharArray())
+                {
+                    if (!dict.contains(c))
+                    {
+                        dict.add(c);
+                    }
                 }
             }
         }
-        
+
         return dict;
-    }
-    
+    }    
     
     /*
      * Inputs: All words with the same prefix (all the first prefixSize chars are the same!)
