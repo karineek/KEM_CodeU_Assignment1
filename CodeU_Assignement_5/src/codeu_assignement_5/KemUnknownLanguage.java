@@ -14,22 +14,18 @@ public class KemUnknownLanguage {
     */
     public List<Character> getAlphabeit(String[] alienWords) {
         List<Character> alphabet = null;
-        if ((alienWords != null) && (alienWords.length > 0))
-        {
-           /* Get the current order by prefix size, starting from 0 */
+        if ((alienWords != null) && (alienWords.length > 0)) {
+            /* Get the current order by prefix size, starting from 0 */
             alphabet = getBasicAlphaBeit(alienWords, 0); /* Basic Alphabeit */ 
             /* A,R,C from the example! */
 
             /* Add from prefix while there are letters after first letter of prefix */
-            while (!addToDictByPrefix(alienWords, alphabet)){} 
+            addToDictByPrefixSize(alienWords, alphabet); 
 
-            /* Add all the chars we cannot decide in the end*/
-            for (String w : alienWords) 
-            {
-                for (Character c: w.toCharArray())
-                {
-                    if (!alphabet.contains(c))
-                    {
+            /* Add all the chars we cannot decide in the end - According to the comments in Slack */
+            for (String w : alienWords) {
+                for (Character c: w.toCharArray()) {
+                    if (!alphabet.contains(c)) {
                         alphabet.add(c);
                     }
                 }
@@ -47,10 +43,6 @@ public class KemUnknownLanguage {
     */
     private List<Character> getBasicAlphaBeit(String[] words, int prefixSize) {
         List<Character> ret = new ArrayList(); 
-        if (words == null) {
-            return ret;
-        }
-        
         for (String w : words) {
             if ((w.length() > prefixSize) && (!ret.contains(w.charAt(prefixSize)))) {
                 ret.add(w.charAt(prefixSize));
@@ -58,19 +50,6 @@ public class KemUnknownLanguage {
         }   
         
         return ret;
-    }
-    
-    /*
-     * Gives the prefix of a char that isn't in the alphabetionary
-    */
-    private int getSizeOfPrefix(String w, List<Character> alphabet) {
-        for (int i=0; i < w.length(); i++) {
-            if (!alphabet.contains(w.charAt(i))) {
-                return i;
-            }
-        }
-        
-        return w.length();
     }
     
     /*
@@ -87,8 +66,7 @@ public class KemUnknownLanguage {
         for (int i=curr+1; i<alienWords.length; i++) {
             if (!alienWords[i].startsWith(prefix)) {
                 break;
-            }
-            
+            }       
             tempDict.add(alienWords[i]);
         }
         
@@ -97,7 +75,6 @@ public class KemUnknownLanguage {
             if (!alienWords[i].startsWith(prefix)) {
                 break;
             }
-            
             tempDict.add(0,alienWords[i]); 
         }
         
@@ -107,37 +84,59 @@ public class KemUnknownLanguage {
     /*
      * Get two alphabetionary with common latters and merge them into the first alphabet,
      * if none, cannot know, add all these cases later on
+     * E.g., we have the current alphabet, A,T,C
+     * and withset of rules saying A,R,T to be the new alphabet:
+     * A,R,T,C
     */
     private void mergeDict(List<Character> alphabet1, List<Character> alphabet2) {
-        int from2 = 0;  
+        int from2 = 0;  /* Start from location 0 in alphabet1 */
+        
+        /* Pass on alphabet2 and merge it into alphabet1 */
         for (int i=0; i < alphabet2.size(); i++) {
-            if (alphabet1.contains(alphabet2.get(i))) {
-                /* Find common point, merge here! */
-                alphabet1.addAll(alphabet1.indexOf(alphabet2.get(i)), alphabet2.subList(from2, i));
-                from2 = i+1;
+            /* Adds to the alphabet only to satisfy a rule, if not adds all in the end 
+              (no rule, or only says "it comes after that symbol", 
+               with no restriction of "but it also comes before the other symbol") */
+            if (alphabet1.contains(alphabet2.get(i))) { 
+                if ((i+1) < alphabet2.size() 
+                   && (alphabet1.contains(alphabet2.get(i+1))) 
+                   && (alphabet1.indexOf(alphabet2.get(i)) > alphabet1.indexOf(alphabet2.get(i+1)))) {
+                    /* Need to fix the order */
+                    alphabet1.remove(alphabet2.get(i));
+                    alphabet1.add(alphabet1.indexOf(alphabet2.get(i+1)), alphabet2.get(i)); 
+                } else {
+                    /* Find common point, merge here! */
+                    /* Case where we have: */
+                    alphabet1.addAll(alphabet1.indexOf(alphabet2.get(i)), alphabet2.subList(from2, i));
+                }
+                from2 = i+1; /* The next location in alphabet2 to start adding to in alphabet1 */
             }        
+        }
+        
+        /* For all the symbols in alphabet2 that only needs to come after, adds it to the end of alphabet1 */
+        if (from2 <= (alphabet2.size()-1)) {
+            alphabet1.addAll(alphabet2.subList(from2, alphabet2.size())); /* Add the tail */
         }
     }
     
-    private boolean addToDictByPrefix(String[] alienWords, List<Character> alphabet) {
-        boolean hasReachMaxPrefix = true;
-        for (int i=0; i < alienWords.length; i++) {
-            int prefixSize = getSizeOfPrefix(alienWords[i], alphabet);
-            if (prefixSize != alienWords[i].length()) {
+    /*
+     For each length of prefix (1,2,3,4,....(i)), collects all the prefixes
+     and if found a new rule adds it to the dictionary
+    */
+    private void addToDictByPrefixSize(String[] alienWords, List<Character> alphabet) { 
+        /* For each size of prefix does the following: */
+        for (int i=0; i < alienWords.length; i++) {  /* For each word, do: */
+            for (int j=1; j < alienWords[i].length(); j++) { /* For each prefix size */     
+                int prefixSize = j;
                 String[] sublistWords = getWordsWithSamePrefix(alienWords, i, prefixSize);
                 if (sublistWords.length > 1) {
                     List<Character> tempDict = getBasicAlphaBeit(sublistWords, prefixSize);
                     if (!tempDict.isEmpty()) {
-                        int alphabetSize = alphabet.size();
                         mergeDict(alphabet,tempDict);
-                        if (alphabetSize != alphabet.size()) {
-                            hasReachMaxPrefix = false;
-                        }
                     }
+                } else {
+                    break;
                 }
             }
         }
-        
-        return hasReachMaxPrefix;
     }
 }
