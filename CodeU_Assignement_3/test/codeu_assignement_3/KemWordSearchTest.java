@@ -1,7 +1,5 @@
 package codeu_assignement_3;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -14,11 +12,9 @@ public class KemWordSearchTest {
     public KemWordSearchTest() {
     }
     
-    @BeforeClass
     public static void setUpClass() {
     }
     
-    @AfterClass
     public static void tearDownClass() {
     }
 

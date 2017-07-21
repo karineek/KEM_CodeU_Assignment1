@@ -44,11 +44,6 @@ public class SimpleDictionary implements KemDictionary
     @Override
     public boolean isPrefix (String p)
     {
-        if (isWord(p)) 
-        {
-            return true;
-        }
-        
         /* Else search if is a prefix */
         String p_u = p.toUpperCase();
         for (int i=0; i< m_dict.size(); i++)

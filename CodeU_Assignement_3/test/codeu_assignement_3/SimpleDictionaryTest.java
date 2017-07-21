@@ -1,7 +1,5 @@
 package codeu_assignement_3;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,67 +15,37 @@ public class SimpleDictionaryTest {
     
     public SimpleDictionaryTest() {
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
 
     @Test
     public void testIsWordNullDict() {
         System.out.println("isWord Null dictionary");
-        String w = "";
-        SimpleDictionary instance = new SimpleDictionary(null);
-        boolean expResult = false;
-        boolean result = instance.isWord(w);
-        assertEquals(expResult, result);
+        assertEquals(false, (new SimpleDictionary(null)).isWord(""));
     }
 
     @Test
     public void testIsPrefixNullDict() {
         System.out.println("isPrefix Null dictionary");
-        String p = "";
-        SimpleDictionary instance = new SimpleDictionary(null);
-        boolean expResult = false;
-        boolean result = instance.isPrefix(p);
-        assertEquals(expResult, result);
+        assertEquals(false, new SimpleDictionary(null).isPrefix(""));
     }
     
     @Test
     public void testIsWordEmptyDict() {
         System.out.println("isWord Empty dictionary");
-        String w = "";
-        String[] dict = new String[0];
-        SimpleDictionary instance = new SimpleDictionary(dict);
-        boolean expResult = false;
-        boolean result = instance.isWord(w);
-        assertEquals(expResult, result);
+        assertEquals(false, new SimpleDictionary(new String[0]).isWord(""));
     }
 
     @Test
     public void testIsPrefixEmptyDict() {
         System.out.println("isPrefix Empty dictionary");
-        String p = "";
-        String[] dict = new String[0];
-        SimpleDictionary instance = new SimpleDictionary(dict);
-        boolean expResult = false;
-        boolean result = instance.isPrefix(p);
-        assertEquals(expResult, result);
+        assertEquals(false, new SimpleDictionary(new String[0]).isPrefix(""));
     }
 
     @Test
     public void testIsWordSingleWordDict_F() {
         System.out.println("isWord SingleWord dictionary (F)");
-        String w = "";
         String[] dict = new String[1];
         dict[0] = "cat";
-        SimpleDictionary instance = new SimpleDictionary(dict);
-        boolean expResult = false;
-        boolean result = instance.isWord(w);
-        assertEquals(expResult, result);
+        assertEquals(false, new SimpleDictionary(dict).isWord(""));
     }
 
     @Test
@@ -91,17 +59,16 @@ public class SimpleDictionaryTest {
         String[] dict = new String[1];
         dict[0] = "cat";
         SimpleDictionary instance = new SimpleDictionary(dict);
-        boolean expResult = false;
         boolean result1 = instance.isPrefix(p1);
         boolean result2 = instance.isPrefix(p2);
         boolean result3 = instance.isPrefix(p3);
         boolean result4 = instance.isPrefix(p4);
         boolean result5 = instance.isPrefix(p5);
-        assertEquals(expResult, result1);
-        assertEquals(expResult, result2);
-        assertEquals(expResult, result3);
-        assertEquals(expResult, result4);
-        assertEquals(expResult, result5);
+        assertEquals(false, result1);
+        assertEquals(false, result2);
+        assertEquals(false, result3);
+        assertEquals(false, result4);
+        assertEquals(false, result5);
     } 
 
    @Test
@@ -111,9 +78,8 @@ public class SimpleDictionaryTest {
         String[] dict = new String[1];
         dict[0] = "cat";
         SimpleDictionary instance = new SimpleDictionary(dict);
-        boolean expResult = true;
         boolean result = instance.isWord(w);
-        assertEquals(expResult, result);
+        assertEquals(true, result);
     }
     @Test
     public void testIsPrefixSingleWordDict_T() {
@@ -125,15 +91,14 @@ public class SimpleDictionaryTest {
         String[] dict = new String[1];
         dict[0] = "cat";
         SimpleDictionary instance = new SimpleDictionary(dict);
-        boolean expResult = true;
         boolean result1 = instance.isPrefix(p1);
         boolean result2 = instance.isPrefix(p2);
         boolean result3 = instance.isPrefix(p3);
         boolean result4 = instance.isPrefix(p4);
-        assertEquals(expResult, result1);
-        assertEquals(expResult, result2);
-        assertEquals(expResult, result3);
-        assertEquals(expResult, result4);
+        assertEquals(true, result1);
+        assertEquals(true, result2);
+        assertEquals(true, result3);
+        assertEquals(true, result4);
     }  
 
     @Test
@@ -142,9 +107,8 @@ public class SimpleDictionaryTest {
         String w = "AT";
         String[] dict = {"CAR", "CARD", "CART", "CAT"};
         SimpleDictionary instance = new SimpleDictionary(dict);
-        boolean expResult = false;
         boolean result = instance.isWord(w);
-        assertEquals(expResult, result);
+        assertEquals(false, result);
     }
 
     @Test
@@ -154,11 +118,10 @@ public class SimpleDictionaryTest {
         String p2 = "PAR";
         String[] dict = {"CAR", "CARD", "CART", "CAT"};
         SimpleDictionary instance = new SimpleDictionary(dict);
-        boolean expResult = false;
         boolean result1 = instance.isPrefix(p1);
         boolean result2 = instance.isPrefix(p2);
-        assertEquals(expResult, result1);
-        assertEquals(expResult, result2);
+        assertEquals(false, result1);
+        assertEquals(false, result2);
     } 
 
     @Test
@@ -169,13 +132,12 @@ public class SimpleDictionaryTest {
         String w3 = "CAT";
         String[] dict = {"CAR", "CARD", "CART", "CAT"};
         SimpleDictionary instance = new SimpleDictionary(dict);
-        boolean expResult = true;
         boolean result1 = instance.isWord(w1);
         boolean result2 = instance.isWord(w2);
         boolean result3 = instance.isWord(w3);
-        assertEquals(expResult, result1);
-        assertEquals(expResult, result2);
-        assertEquals(expResult, result3);
+        assertEquals(true, result1);
+        assertEquals(true, result2);
+        assertEquals(true, result3);
     }
     
     @Test
@@ -185,10 +147,9 @@ public class SimpleDictionaryTest {
         String p2 = "CAR";
         String[] dict = {"CAR", "CARD", "CART", "CAT"};
         SimpleDictionary instance = new SimpleDictionary(dict);
-        boolean expResult = true;
         boolean result1 = instance.isPrefix(p1);
         boolean result2 = instance.isPrefix(p2);
-        assertEquals(expResult, result1);
-        assertEquals(expResult, result2);
+        assertEquals(true, result1);
+        assertEquals(true, result2);
     }     
 }
