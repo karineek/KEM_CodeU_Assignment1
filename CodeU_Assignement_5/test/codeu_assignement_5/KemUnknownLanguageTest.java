@@ -1,5 +1,6 @@
 package codeu_assignement_5;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -24,7 +25,7 @@ public class KemUnknownLanguageTest {
     public void testGetAlphabeitEmptySet() {
         System.out.println("getAlphabeit empty set of words");
         KemUnknownLanguage instance = new KemUnknownLanguage();
-        assertEquals(null, instance.getAlphabeit(new String[0]));
+        assertEquals(new ArrayList(), instance.getAlphabeit(new String[0]));
     }
 
     @Test
