@@ -13,21 +13,24 @@ public class KemUnknownLanguage {
     *  Output: alphabet (an ordered list of characters) of that language, letters we cannot decide are appended in the end.
     */
     public List<Character> getAlphabeit(String[] alienWords) {
+        if (alienWords == null) {
+            return null;
+        }
+        
         List<Character> alphabet = null;
-        if ((alienWords != null) && (alienWords.length > 0)) {
-            /* Get the current order by prefix size, starting from 0 */
-            alphabet = getBasicAlphaBeit(alienWords, 0); /* Basic Alphabeit */ 
-            /* A,R,C from the example! */
 
-            /* Add from prefix while there are letters after first letter of prefix */
-            addToDictByPrefixSize(alienWords, alphabet); 
+        /* Get the current order by prefix size, starting from 0 */
+        alphabet = inferAlphabetFromCommonPrefix(alienWords, 0); /* Basic Alphabeit */ 
+        /* A,R,C from the example! */
 
-            /* Add all the chars we cannot decide in the end - According to the comments in Slack */
-            for (String w : alienWords) {
-                for (Character c: w.toCharArray()) {
-                    if (!alphabet.contains(c)) {
-                        alphabet.add(c);
-                    }
+        /* Add from prefix while there are letters after first letter of prefix */
+        addToDictByPrefixSize(alienWords, alphabet); 
+
+        /* Add all the chars we cannot decide in the end - According to the comments in Slack */
+        for (String w : alienWords) {
+            for (Character c: w.toCharArray()) {
+                if (!alphabet.contains(c)) {
+                    alphabet.add(c);
                 }
             }
         }
@@ -38,10 +41,12 @@ public class KemUnknownLanguage {
     /*
      * Inputs: All words with the same prefix (all the first prefixSize chars are the same!)
      * Output: Per common prefix, gets the order of the chars
-     *
-     * Note: Assume the input is valid here!
+     * 
+     * Process: Given an array of words that all match up to a common prefix length, infer an 
+    *  alphabetical ordering of the characters based on the order of the first differing character. 
+    *  No check is made that the common prefix really is the same across the list. 
     */
-    private List<Character> getBasicAlphaBeit(String[] words, int prefixSize) {
+    private List<Character> inferAlphabetFromCommonPrefix(String[] words, int prefixSize) {
         List<Character> ret = new ArrayList(); 
         for (String w : words) {
             if ((w.length() > prefixSize) && (!ret.contains(w.charAt(prefixSize)))) {
@@ -129,7 +134,7 @@ public class KemUnknownLanguage {
                 int prefixSize = j;
                 String[] sublistWords = getWordsWithSamePrefix(alienWords, i, prefixSize);
                 if (sublistWords.length > 1) {
-                    List<Character> tempDict = getBasicAlphaBeit(sublistWords, prefixSize);
+                    List<Character> tempDict = inferAlphabetFromCommonPrefix(sublistWords, prefixSize);
                     if (!tempDict.isEmpty()) {
                         mergeDict(alphabet,tempDict);
                     }
